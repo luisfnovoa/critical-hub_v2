@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS CORES - PANEL DE ACCESIBILIDAD TÁCTICA</title>
+    <style>
+        :root {
+            --bg-main: #1a1c23;       /* Gris carbón suave, reduce fatiga */
+            --bg-panel: #222530;      /* Contenedores ligeramente más claros */
+            --text-main: #e2e8f0;     /* Crema suave, evita el contraste agresivo */
+            --text-muted: #94a3b8;    /* Gris secundario para descanso visual */
+            --accent-blue: #38bdf8;   /* Azul cian: Sustituto del verde (Apto daltonismo/No cansa) */
+            --accent-warn: #fb923c;   /* Naranja suave: Reemplazo del amarillo chillón */
+            --accent-danger: #f87171; /* Coral pastel: Reemplazo del rojo agresivo */
+            --border-color: #334155;  /* Bordes sutiles sin brillos */
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .hud-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #2e3242;
+            border-color: var(--accent-blue);
+        }
+
+        /* Grid de simulación */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .monitor-panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            height: 380px;
+        }
+
+        .panel-header {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+        }
+
+        .terminal-feed {
+            flex-grow: 1;
+            overflow-y: auto;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: var(--text-main);
+        }
+
+        /* Clases de registros optimizados para vista cansada */
+        .log-blue { color: var(--accent-blue); }
+        .log-yellow { color: var(--accent-warn); }
+        .log-red { color: var(--accent-danger); font-weight: 600; }
+        .log-muted { color: var(--text-muted); }
+
+        /* Reporte Técnico / Tesis limpia estilo lectura corporativa */
+        .thesis-section {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
+            margin-top: 24px;
+            max-width: 900px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: var(--accent-blue);
+            margin-top: 28px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        p, li {
+            color: var(--text-main);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        blockquote {
+            margin: 20px 0;
+            padding: 16px;
+            background-color: var(--bg-main);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Scrollbar suave */
+        .terminal-feed::-webkit-scrollbar { width: 6px; }
+        .terminal-feed::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="hud-title">📊 KRONOS OPERATIONAL DEFENSE CONSOLE</div>
+        <div class="subtitle">Entorno de Simulación Unificado | Modo de Visualización Confort Estricto</div>
+    </header>
+
+    <div class="controls">
+        <button id="btnStart" onclick="startAllDemos()">[W] Iniciar Monitorización</button>
+        <button id="btnReset" onclick="resetAllDemos()">[ENTER x2] Forzar Reset de Escenarios</button>
+    </div>
+
+    <div class="dashboard-grid">
+        
+        <div class="monitor-panel">
+            <div class="panel-header">
+                <span>📡 INFRAESTRUCTURA: Subestación Modbus</span>
+                <span id="status-p1" class="log-blue">[STANDBY]</span>
+            </div>
+            <div id="feed-p1" class="terminal-feed log-muted">Consola en espera. Presiona 'W' para iniciar la secuencia de eventos.</div>
+        </div>
+
+        <div class="monitor-panel">
+            <div class="panel-header">
+                <span>🪤 CONTROL DE ACCESOS: Honeypot Flota AGV</span>
+                <span id="status-p2" class="log-blue">[ACTIVE]</span>
+            </div>
+            <div id="feed-p2" class="terminal-feed log-muted">Módulo de decepción activo y monitorizando el Puerto 2323 de forma silenciosa.</div>
+        </div>
+
+        <div class="monitor-panel">
+            <div class="panel-header">
+                <span>🛡️ ANALÍTICA: Mitigación Estocástica Matrix</span>
+                <span id="status-p3" class="log-yellow">[ESPERANDO INDUCCIÓN]</span>
+            </div>
+            <div id="feed-p3" class="terminal-feed log-muted">Múltiples vectores defensivos listos para análisis en tiempo real.</div>
+        </div>
+
+    </div>
+
+    <div class="thesis-section">
+        <span style="font-size: 12px; font-weight: bold; text-transform: uppercase; color: var(--text-muted);">Documentación de Ingeniería</span>
+        <h1 style="font-size: 24px; margin: 8px 0 24px 0; color: var(--text-main);">Informe de Resiliencia y Auditoría Tecnológica Global</h1>
+        
+        <h2>1. Resumen Ejecutivo y Análisis de Impacto Corporativo</h2>
+        <p>Durante el análisis de resiliencia ejecutado sobre el entorno industrial interconectado de <strong>KRONOS Cores</strong>, se evaluaron las vulnerabilidades críticas del ecosistema informático (IT) y operacional (OT). La integración descontrolada de analítica web, flujos de datos e interconexión remota expone la planta a paradas de producción críticas de manera instantánea.</p>
+        
+        <blockquote>
+            <strong>Matriz de Riesgo Global Evaluada:</strong> CRÍTICO<br>
+            <strong>Impacto Financiero:</strong> Pérdidas estimadas en $1.2M por hora de inactividad, exclusión de pólizas de seguro cibernético y sanciones severas bajo regulaciones gubernamentales de infraestructuras críticas.
+        </blockquote>
+
+        <h2>2. Modelado Técnico de Amenazas (Vectores Forenses Modbus)</h2>
+        <p>El núcleo de la subestación de energía opera bajo protocolos industriales clásicos (Modbus TCP). Por diseño histórico, estos vectores carecen de mecanismos criptográficos nativos. Un atacante con acceso a la red local puede inyectar frames maliciosos sin restricciones:</p>
+        <ul>
+            <li><strong>Fase 1 (Reconocimiento Prolongado):</strong> Escaneo de puertos ciego buscando firmas de funciones Modbus (<code class="log-blue">READ_STATUS</code>).</li>
+            <li><strong>Fase 2 (Abuso de Privilegios No Autenticados):</strong> Inyección directa del frame de escritura de bobinas (<code class="log-red">WRITE_COIL:0:FALSE</code>) forzando el desenganche del interruptor principal de energía.</li>
+        </ul>
+
+        <h2>3. Arquitectura de Decepción Activa (Honeypot de Flota AGV)</h2>
+        <p>Para mitigar la ventaja táctica del atacante, se despliega un sistema de decepción de Nivel 2. Un script emula la terminal de control de vehículos guiados autónomos (AGV) y accesos vehiculares de empleados en el puerto alternativo 2323. Su objetivo es recolectar inteligencia de amenazas (TTPs) en tiempo real, engañando al atacante mediante menús falsos de simulación logística mientras su IP es aislada dinámicamente.</p>
+
+        <h2>4. Mitigación Estocástica y Aislamiento Físico de Capa Crítica</h2>
+        <p>Ante ataques masivos y sofisticados (Simulación Matrix), el cortafuegos perimetral basado en inteligencia clase SOC evalúa la penetración a través de 5 anillos de aislamiento concéntricos. Si los atacantes logran evadir las capas defensivas debido a exploits de día cero y comprometen el área OT, se dispara un mecanismo de <strong>Aislamiento Físico de Emergencia (Air-Gap Mecánico)</strong>, desenergizando preventivamente la Zona 6 (Laboratorio de Biomedicina) para blindar los activos químicos e inflamables frente a una manipulación digital hostil.</p>
+    </div>
+<h2>5. Limitaciones del Entorno Monolítico y Restricciones de Escalabilidad</h2>
+        <p>Como entorno de demostración táctica, el presente dashboard unificado opera bajo un modelo monolítico simulado en el lado del cliente (Client-Side). En un entorno de producción de nivel industrial (Enterprise/OT), este diseño presenta vulnerabilidades críticas que requieren un aislamiento estricto:</p>
+        <ul>
+            <li><strong>Inyección y Exposición de Memoria:</strong> El uso de estructuras de datos volátiles (arrays globales en JavaScript) para simular los 50 empleados autorizados carece de persistencia y aislamiento. En un despliegue real, la data debe ser segregada mediante una arquitectura de tres capas (3-Tier Architecture).</li>
+            <li><strong>Ausencia de Aislamiento de Base de Datos (DB Isolation):</strong> Un cliente web jamás debe interactuar con las fuentes de datos. Se requiere la implementación de un <strong>API Gateway</strong> intermedio bajo un modelo de confianza cero (Zero Trust), donde el frontend solo consuma tokens de acceso efímeros (JWT) y las consultas a la base de datos central (PostgreSQL/Oracle) se realicen mediante consultas sanitizadas (ORMs) protegidas por firewalls de aplicación (WAF).</li>
+            <li><strong>Limitaciones de Python Concurrente en Redes OT:</strong> Los scripts de respaldo de socket síncronos (<code class="log-blue">plc_sim.py</code> / <code class="log-blue">honeypot.py</code>) utilizan el hilo principal del procesador de forma no bloqueante mediante técnicas primitivas de polling (<code class="log-yellow">msvcrt.kbhit</code>). En producción, esto generaría denegación de servicio (DoS) por sobrecarga ante flujos masivos de telemetría industrial. Se exigirían arquitecturas reactivas asíncronas (<code class="log-blue">Asyncio</code> o colas de mensajes como <code class="log-blue">RabbitMQ/Kafka</code>).</li>
+        </ul>
+
+        <h2>6. Convergencia de Seguridad Física (Safety) y Seguridad Lógica (Security)</h2>
+        <p>La seguridad de una infraestructura crítica como KRONOS no se limita al software. El modelado de amenazas real exige una matriz de convergencia donde el compromiso lógico impacta de forma directa en las barreras cinéticas y humanas:</p>
+        
+        
+
+        <ul>
+            <li><strong>Control de Accesos Biométrico e Identidad Corporativa:</strong> Los mil empleados de la planta no solo existen en una base de datos de red corporativa; sus identidades están ligadas a tags RFID físicos y lectores biométricos en los torniquetes de acceso de la Zona 1 a la Zona 5. Un ataque de envenenamiento de base de datos (Database Poisoning) permitiría a un atacante inyectar un ID legítimo falso, comprometiendo físicamente los perímetros de la planta.</li>
+            <li><strong>Sistemas S de Circuito Cerrado (CCTV) e Interrupción PLC:</strong> El exploit ejecutado en el Proyecto 1 (<code class="log-red">WRITE_COIL:0:FALSE</code>) demuestra que un comando lógico puede desactivar interruptores físicos. La respuesta ante incidentes moderna exige que el SOC correlacione la alerta del firewall con los sistemas de control de accesos físicos (SCADA/HMI) y las cámaras de seguridad para verificar si el apagón se debe a un ciberataque remoto o a un sabotaje de proximidad física en la subestación.</li>
+            <li><strong>Failsafe Mecánico vs. Override Digital:</strong> El protocolo de aislamiento de la Zona 6 (Laboratorio) implementado en el Proyecto 3 simula una desconexión por software. No obstante, la ingeniería de resiliencia real estipula que los bloqueos de válvulas e ignición de CO2 deben contar con un <strong>mecanismo de desconexión electromecánico (Air-Gap) manual e independiente</strong> de la red de datos, evitando que un atacante persistente anule el protocolo de seguridad mediante un malware industrial persistente (estilo Stuxnet).</li>
+        </ul>
+    <script>
+        let simRunning = false;
+        let p1Timer, p2Timer, p3Timer;
+        let enterKeyCount = 0;
+
+        const ESCENARIOS = [
+            { titulo: "AMENAZA QUÍMICA", zona6: "LABORATORIO BIOMEDICINA", accion: "[✓] AISLAMIENTO DE FLUIDOS E IGNICIÓN POR CO2" },
+            { titulo: "CRISIS VIROLÓGICA CRIOGÉNICA", zona6: "CÁMARA DE CEPA VIRAL N4", accion: "[✓] CONGELACIÓN NEUMÁTICA Y CIERRE FILTROS HEPA" },
+            { titulo: "APAGÓN RED ELÉCTRICA", zona6: "REACTOR GENERADOR NUCLEAR", accion: "[✓] CAÍDA DE BARRERAS DE ACCESO DE PLOMO" }
+        ];
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key.toLowerCase() === 'w') startAllDemos();
+            if (event.key === 'Enter') {
+                enterKeyCount++;
+                if (enterKeyCount >= 2) {
+                    resetAllDemos();
+                    enterKeyCount = 0;
+                }
+                setTimeout(() => { enterKeyCount = 0; }, 1000);
+            }
+        });
+
+        function appendLog(feedId, text, className = 'log-blue') {
+            const feed = document.getElementById(feedId);
+            const time = new Date().toLocaleTimeString();
+            const logLine = document.createElement('div');
+            logLine.className = className;
+            logLine.innerHTML = `[${time}] ${text}`;
+            feed.appendChild(logLine);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function startAllDemos() {
+            if (simRunning) return;
+            simRunning = true;
+            
+            document.getElementById('feed-p1').innerHTML = "";
+            document.getElementById('feed-p2').innerHTML = "";
+            document.getElementById('feed-p3').innerHTML = "";
+            
+            document.getElementById('status-p1').innerHTML = "<span class='log-yellow'>[ANOMALÍAS DETECTADAS]</span>";
+            document.getElementById('status-p3').innerHTML = "<span class='log-blue'>[PROCESANDO]</span>";
+            
+            runProyecto1();
+            runProyecto2();
+            runProyecto3();
+        }
+
+        function resetAllDemos() {
+            simRunning = false;
+            clearInterval(p1Timer);
+            clearInterval(p2Timer);
+            clearInterval(p3Timer);
+            
+            document.getElementById('feed-p1').innerHTML = "Consola en espera. Presiona 'W' para iniciar la secuencia de eventos.";
+            document.getElementById('feed-p2').innerHTML = "Módulo de decepción activo y monitorizando el Puerto 2323 de forma silenciosa.";
+            document.getElementById('feed-p3').innerHTML = "Múltiples vectores defensivos listos para análisis en tiempo real.";
+            
+            document.getElementById('status-p1').className = "log-blue";
+            document.getElementById('status-p1').innerText = "[STANDBY]";
+            document.getElementById('status-p3').className = "log-yellow";
+            document.getElementById('status-p3').innerText = "[ESPERANDO INDUCCIÓN]";
+            
+            appendLog('feed-p3', "🔄 CONFIGURACIÓN RECONFIGURADA CON NUEVOS ESCENARIOS TÁCTICOS.", 'log-yellow');
+        }
+
+        function runProyecto1() {
+            let step = 0;
+            const logs = [
+                { t: "PLC KRONOS: Escuchando en puerto pasarela 5020...", c: "log-blue" },
+                { t: "PLC KRONOS: Monitoreo eléctrico estable. Estado: ONLINE", c: "log-blue" },
+                { t: "SISTEMA: Flujo inusual de paquetes desde nodo externo 192.168.1.45", c: "log-yellow" },
+                { t: "AVISO: Escaneo de puertos ciego detectado en capa perimetral", c: "log-yellow" },
+                { t: "ATACANTE: Solicitando respuesta de banderas Modbus TCP...", c: "log-yellow" },
+                { t: "ATACANTE: Comando de lectura inyectado -> 'READ_STATUS'", c: "log-yellow" },
+                { t: "PLC KRONOS: Petición respondida por defecto -> STATUS:1 (ONLINE)", c: "log-blue" },
+                { t: "ATACANTE: Confirmando vector explotable por ausencia de cifrado.", c: "log-yellow" },
+                { t: "ATACANTE: Inyectando frame crítico de alteración de bobina...", c: "log-yellow" },
+                { t: "⚠️ FRAME DETECTADO -> WRITE_COIL:0:FALSE", c: "log-red" },
+                { t: "💥 IMPACTO: Apertura de interruptor principal de energía ejecutada.", c: "log-red" },
+                { t: "============= APAGÓN DE SEGURIDAD EN LA SUBESTACIÓN =============", c: "log-red" }
+            ];
+
+            p1Timer = setInterval(() => {
+                if (step < logs.length) {
+                    appendLog('feed-p1', logs[step].t, logs[step].c);
+                    step++;
+                } else {
+                    clearInterval(p1Timer);
+                    document.getElementById('status-p1').innerHTML = "<span class='log-red'>[DESCONECTADO]</span>";
+                }
+            }, 5500);
+        }
+
+        function runProyecto2() {
+            let step = 0;
+            const logs = [
+                { t: "HONEYPOT: Puerto de control logístico virtualizado (2323) escuchando...", c: "log-blue" },
+                { t: "HONEYPOT: Emulación de terminal AGV y acceso vehicular activa.", c: "log-blue" },
+                { t: "🪤 SEÑUELO: Conexión entrante interceptada desde IP interna 10.0.4.12", c: "log-yellow" },
+                { t: "HONEYPOT: Sirviendo pantalla de bienvenida simulada...", c: "log-blue" },
+                { t: "ANÁLISIS FORENSE: Intento de autenticación - Usuario: 'admin'", c: "log-yellow" },
+                { t: "ANÁLISIS FORENSE: Intento de autenticación - Credencial: '1234'", c: "log-yellow" },
+                { t: "HONEYPOT: Acceso simulado concedido para monitorizar comportamiento.", c: "log-blue" },
+                { t: "HONEYPOT: Mostrando panel falso de camiones y compuertas automáticas.", c: "log-blue" },
+                { t: "🔥 ALERTA: El intruso intenta enviar comando hostil: 'DESVIAR_CAMION_4'", c: "log-red" },
+                { t: "🛡️ DECEPCIÓN COMPLETA: Firma de ataque capturada e IP enviada a aislamiento.", c: "log-blue" },
+                { t: "SISTEMA: Conexión cortada por timeout controlado. Evidencia registrada.", c: "log-yellow" }
+            ];
+
+            p2Timer = setInterval(() => {
+                if (step < logs.length) {
+                    appendLog('feed-p2', logs[step].t, logs[step].c);
+                    step++;
+                } else {
+                    clearInterval(p2Timer);
+                }
+            }, 6500);
+        }
+
+        function runProyecto3() {
+            let hackers = { "Apt29_Shadow": 1, "NetWrecker_v4": 1, "ZeroDay_User": 1 };
+            const escenario = ESCENARIOS[Math.floor(Math.random() * ESCENARIOS.length)];
+            
+            appendLog('feed-p3', `⚙️ CARGANDO ENTORNO TÁCTICO: ${escenario.titulo}`, 'log-yellow');
+            
+            p3Timer = setInterval(() => {
+                if (!simRunning) return;
+                
+                if (Math.random() < 0.6) {
+                    const empId = Math.floor(Math.random() * 9000) + 1000;
+                    const zonaLegitima = Math.floor(Math.random() * 5) + 1;
+                    appendLog('feed-p3', `🟩 [VALIDADO] Empleado ID-${empId} accedió a Zona ${zonaLegitima}`, 'log-muted');
+                }
+
+                for (let hacker in hackers) {
+                    let zonaActual = hackers[hacker];
+                    if (zonaActual === 6) continue;
+
+                    appendLog('feed-p3', `💥 [ALERTA] Vector '${hacker}' atacando barreras de la Zona ${zonaActual}...`, 'log-yellow');
+                    
+                    if (Math.random() < 0.65) {
+                        appendLog('feed-p3', `🛡️ [BLOQUEADO] Filtro de red contuvo la amenaza '${hacker}' en Zona ${zonaActual}.`, 'log-blue');
+                        hackers[hacker] = 1; 
+                    } else {
+                        hackers[hacker]++;
+                        appendLog('feed-p3', `⚠️ [BRECHA] '${hacker}' avanzó con éxito hacia la Zona ${hackers[hacker]}!`, 'log-red');
+                        
+                        if (hackers[hacker] === 6) {
+                            clearInterval(p3Timer);
+                            simRunning = false;
+                            
+                            appendLog('feed-p3', `🚨 CRITICAL: Intruso compromete Anillo 5 con dirección a ${escenario.zona6}`, 'log-red');
+                            setTimeout(() => {
+                                appendLog('feed-p3', `🛑 ACTIVANDO PROTOCOLO AUTOMÁTICO DE AISLAMIENTO:`, 'log-red');
+                                appendLog('feed-p3', `${escenario.accion}`, 'log-yellow');
+                                appendLog('feed-p3', `[✓] CORTE TOTAL DE CORRIENTE PREVENTIVO EJECUTADO CON ÉXITO.`, 'log-blue');
+                                appendLog('feed-p3', `================ AMENAZA AISLADA FÍSICAMENTE ================\n`, 'log-blue');
+                                document.getElementById('status-p3').className = "log-red";
+                                document.getElementById('status-p3').innerText = "[LOCKDOWN ACTIVO]";
+                            }, 1500);
+                            break;
+                        }
+                    }
+                }
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

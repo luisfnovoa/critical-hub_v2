@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS | Identidad Operativa</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=JetBrains+Mono&display=swap');
+        
+        :root {
+            --bg: #0f172a; --panel: #1e293b; --accent: #38bdf8;
+            --text: #f1f5f9; --text-dim: #94a3b8;
+            --success: #10b981; --warn: #fb923c; --danger: #f87171;
+        }
+
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { max-width: 900px; width: 100%; }
+        
+        header { border-left: 4px solid var(--accent); padding-left: 20px; margin-bottom: 40px; }
+        h1 { font-size: 3rem; margin: 0; letter-spacing: -2px; }
+        
+        .dashboard-card { background: var(--panel); padding: 30px; border-radius: 12px; border: 1px solid #334155; }
+        .controls-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-top: 20px; margin-bottom: 8px; display: block; }
+        .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+        
+        button { background: #334155; color: white; border: none; padding: 10px 16px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        button:hover { background: var(--accent); color: var(--bg); }
+
+        .simulator { background: #000; padding: 20px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; border: 1px solid #334155; height: 300px; overflow-y: auto; margin-top: 20px; }
+        .log-line { margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .high-contrast { filter: invert(1) hue-rotate(180deg); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header><h1>KRONOS</h1></header>
+
+        <div class="dashboard-card">
+            <h2>Telemetry Dashboard</h2>
+            
+            <span class="controls-label">Accesibilidad y TTS</span>
+            <div class="controls">
+                <button onclick="initAudio()">🔊 Iniciar Audio</button>
+                <button onclick="toggleTTS()">Toggle TTS (ON/OFF)</button>
+                <button onclick="setLang('es')">ES</button>
+                <button onclick="setLang('en')">EN</button>
+                <button onclick="toggleContrast()">🌓 Contraste</button>
+            </div>
+
+            <span class="controls-label">Filtros (Daltónicos)</span>
+            <div class="controls">
+                <button onclick="filterLogs('ALL')">VER TODOS</button>
+                <button onclick="filterLogs('INFO')">INFO [i]</button>
+                <button onclick="filterLogs('WARN')">WARN [w]</button>
+                <button onclick="filterLogs('CRITICAL')">CRITICAL [!]</button>
+            </div>
+
+            <span class="controls-label">Acciones</span>
+            <div class="controls">
+                <button onclick="translateSimulation()" style="background: var(--success);">🌐 Traducir (Mock API)</button>
+                <button onclick="location.reload()" style="background: var(--danger);">🔄 Reset</button>
+            </div>
+            
+            <div class="simulator" id="log-terminal">
+                <div>> Sistema KRONOS listo.</div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let ttsEnabled = true;
+    let ttsLang = 'es-ES';
+    
+    const logs = [
+        { level: 'INFO', text: "[i] INFO: Iniciando motor de telemetría..." },
+        { level: 'WARN', text: "[w] WARN: Credencial legacy detectada." },
+        { level: 'CRITICAL', text: "[!] CRITICAL: Acceso no autorizado bloqueado." },
+        { level: 'INFO', text: "[i] INFO: Sistema estable." }
+    ];
+
+    function initAudio() {
+        const synth = window.speechSynthesis;
+        const utter = new SpeechSynthesisUtterance("Sistema KRONOS inicializado");
+        synth.speak(utter);
+    }
+
+    function toggleTTS() { 
+        ttsEnabled = !ttsEnabled; 
+    }
+
+    function setLang(lang) { ttsLang = lang === 'en' ? 'en-US' : 'es-ES'; }
+
+    function speak(text) {
+        if (!ttsEnabled) return;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = ttsLang;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    function translateSimulation() {
+        const term = document.getElementById('log-terminal');
+        term.innerHTML = "<div>> Procesando traducción vía API...</div>";
+        setTimeout(() => {
+            term.innerHTML = "";
+            logs.forEach(l => {
+                const div = document.createElement('div');
+                div.innerText = "[TRADUCIDO] " + l.text;
+                term.appendChild(div);
+            });
+        }, 1000);
+    }
+
+    function filterLogs(level) {
+        const term = document.getElementById('log-terminal');
+        term.innerHTML = "";
+        const filtered = (level === 'ALL') ? logs : logs.filter(l => l.level === level);
+        
+        filtered.forEach((item, index) => {
+            setTimeout(() => {
+                const div = document.createElement('div');
+                div.className = 'log-line';
+                if(item.level === 'WARN') div.style.color = '#fb923c';
+                else if(item.level === 'CRITICAL') div.style.color = '#f87171';
+                else div.style.color = '#10b981';
+                
+                div.innerText = item.text;
+                term.appendChild(div);
+                speak(item.text);
+            }, index * 800);
+        });
+    }
+
+    function toggleContrast() { document.body.classList.toggle('high-contrast'); }
+</script>
+</body>
+</html>

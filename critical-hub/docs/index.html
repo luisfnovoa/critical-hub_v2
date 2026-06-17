@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KRONOS CORES - PANEL DE ACCESIBILIDAD TÁCTICA | TACTICAL ACCESSIBILITY PANEL</title>
+    
+    <style>
+        /* [ES] Variables CSS Globales para el entorno visual (Tema Oscuro OT) */
+        /* [EN] Global CSS Variables for the visual environment (OT Dark Theme) */
+        :root {
+            --bg-main: #1a1c23;       /* [ES] Gris carbón suave / [EN] Soft charcoal gray */
+            --bg-panel: #222530;      /* [ES] Fondo de paneles / [EN] Panels background */
+            --text-main: #e2e8f0;     /* [ES] Texto principal claro / [EN] Main light text */
+            --text-muted: #94a3b8;    /* [ES] Texto secundario / [EN] Muted secondary text */
+            --accent-blue: #38bdf8;   /* [ES] Cian (Apto daltonismo) / [EN] Cyan (Colorblind friendly) */
+            --accent-warn: #fb923c;   /* [ES] Naranja de advertencia / [EN] Warning orange */
+            --accent-danger: #f87171; /* [ES] Rojo/Coral de peligro / [EN] Danger Red/Coral */
+            --border-color: #334155;  /* [ES] Color de bordes / [EN] Border color */
+        }
+
+        /* [ES] Reseteo base y tipografía del sistema */
+        /* [EN] Base reset and system typography */
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* [ES] Cabecera táctica con Flexbox */
+        /* [EN] Tactical header using Flexbox */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--text-main);
+            margin: 0 0 5px 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .subtitle {
+            color: var(--accent-blue);
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        /* [ES] Botón de enlace a la documentación (docs.html) */
+        /* [EN] Link button to the documentation (docs.html) */
+        .nav-link-docs {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            color: var(--accent-blue);
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: monospace;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link-docs:hover {
+            background: var(--accent-blue);
+            color: var(--bg-main);
+        }
+
+        /* [ES] Grid de 4 paneles para telemetría */
+        /* [EN] 4-panel grid for telemetry */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel-header {
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .log-container {
+            background-color: #0b0f19;
+            flex-grow: 1;
+            border-radius: 4px;
+            padding: 10px;
+            overflow-y: auto;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            height: 250px;
+        }
+
+        /* [ES] Clases de estado dinámico para logs */
+        /* [EN] Dynamic state classes for logs */
+        .log-blue { color: var(--accent-blue); }
+        .log-yellow { color: var(--accent-warn); }
+        .log-red { color: var(--accent-danger); }
+        .log-white { color: var(--text-main); }
+
+        /* [ES] Contenedor de controles inferiores */
+        /* [EN] Bottom controls container */
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: var(--bg-panel);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        button {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            font-family: monospace;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* [ES] Contenedor flotante para el cálculo W3C de contraste */
+        /* [EN] Floating container for W3C contrast calculation */
+        #contrast-result {
+            display: none;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            border-left: 4px solid var(--accent-blue);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title-area">
+            <h1>🛡️ KRONOS OPERATIONAL HUB</h1>
+            <div class="subtitle">Consola de Simulación y Resiliencia Cyber-Physical v2.5.0</div>
+        </div>
+        <div class="nav-links">
+            <a href="docs.html" class="nav-link-docs">📖 VER DOCUMENTACIÓN CORE →</a>
+        </div>
+    </header>
+
+    <div class="dashboard-grid">
+        
+        <div class="panel">
+            <div class="panel-header">
+                <span class="log-blue">P1 // MODBUS TCP SCADA</span>
+                <span id="status-p1" class="log-white">[ESPERA]</span>
+            </div>
+            <div id="feed-p1" class="log-container"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="log-blue">P2 // IAM CONJUR INTEGRITY</span>
+                <span id="status-p2" class="log-white">[ESPERA]</span>
+            </div>
+            <div id="feed-p2" class="log-container"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="log-yellow">P3 // HONEYPOT DMZ</span>
+                <span id="status-p3" class="log-white">[ESPERA]</span>
+            </div>
+            <div id="feed-p3" class="log-container"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <span class="log-red">P4 // OT INCIDENT RUNBOOK</span>
+                <span id="status-p4" class="log-white">[ESPERA]</span>
+            </div>
+            <div id="feed-p4" class="log-container"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="btnStart">[W] Iniciar Monitorización</button>
+        <button id="btnReset">[ENTER x2] Forzar Reset</button>
+        
+        <span style="color: var(--text-muted); align-self: center; margin: 0 10px; font-weight: bold;">|</span>
+        
+        <button id="btn-daltonismo">🔄 Daltonismo</button>
+        <button id="btn-tts">🔊 Escuchar Panel</button>
+        <button id="btn-check-contrast">🧮 Analizar Contraste</button>
+    </div>
+
+    <div id="contrast-result"></div>
+
+    <script type="module" src="js/app.js"></script>
+
+
+<script src="kronos-premium.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  vault-core-fips-strict:
+    image: hashicorp/vault:1.15.0 # Fijamos versión para estabilidad
+    container_name: vault_fips_error
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - OPENSSL_FIPS=1
+      - VAULT_DEV_ROOT_TOKEN_ID=root
+    ports:
+      - "8201:8200"
+    command: ["server", "-dev", "-dev-root-token-id=root"]
+
+  vault-core-educational:
+    image: hashicorp/vault:1.15.0
+    container_name: vault_educational
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - OPENSSL_FIPS=0
+      - VAULT_DEV_ROOT_TOKEN_ID=root
+    ports:
+      - "8200:8200"
+    command: ["server", "-dev", "-dev-root-token-id=root"]
