@@ -1,7 +1,12 @@
 # 🛡️ Critical Hop W2 (formerly Kronos Operational Hub)
+
 Tactical Accessibility & Industrial Cybersecurity Lab
+
 Overview:
+
 Critical Hop W2 is the tactical evolution of the Kronos industrial research environment. Engineered to bridge the gap between Biomedical Process Telemetry, OT (Operational Technology) Control Systems, and IT Security Architecture. This repository acts as a sandbox designed for the modeling of cyber-physical resilience.
+
+---
 
 ## 🌐 The Convergence of Three Worlds
 This architecture unifies three distinct technical disciplines into a single resilient ecosystem:
@@ -16,23 +21,27 @@ This architecture unifies three distinct technical disciplines into a single res
 
 ## 🚀 W2 Evolution: Premium Accessibility Module
 
-* **The W2 version introduces the External Control Module (Kronos-Premium), engineered to guarantee tactical operability under adverse conditions:
+* The W2 version introduces the External Control Module (Kronos-Premium), engineered to guarantee tactical operability under adverse conditions:
 
-* **Text-to-Speech (TTS): Audio synthesis for critical telemetry, eliminating the need to monitor displays.
+* Text-to-Speech (TTS): Audio synthesis for critical telemetry, eliminating the need to monitor displays.
 
-* **High-Contrast/Colorblind Mode: Dynamic CSS filtering for visibility in low-light environments or during visual fatigue.
+* High-Contrast/Colorblind Mode: Dynamic CSS filtering for visibility in low-light environments or during visual fatigue.
 
-* **Tactical Shortcuts: Optimized interaction workflows, minimizing reliance on complex peripherals.
+* Tactical Shortcuts: Optimized interaction workflows, minimizing reliance on complex peripherals.
+
+---
 
 ## 🛡️ Operational Defense Philosophy
 
-* **In Critical Hop, security is the foundation, not an add-on layer:
+* In Critical Hop, security is the foundation, not an add-on layer:
 
-* **Deterministic Isolation: The control logic operates independently of external inputs.
+* Deterministic Isolation: The control logic operates independently of external inputs.
 
-* **Deceptive Perimeter: Active honeypot.py logic to detect unauthorized reconnaissance in real-time.
+* Deceptive Perimeter: Active honeypot.py logic to detect unauthorized reconnaissance in real-time.
 
-* **Fail-Safe Telemetry: Physical safety thresholds are hard-coded into the logic core.
+* Fail-Safe Telemetry: Physical safety thresholds are hard-coded into the logic core.
+
+---
 
 ```text
 🛠️ Project Structure
