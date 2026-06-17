@@ -29,8 +29,6 @@ This architecture unifies three distinct technical disciplines into a single res
 
 ```text
 
-=======
-
 Kronos Operational Hub: Critical Infrastructure Convergence Lab
 An industrial cybersecurity and operations environment designed to bridge the gap between Biomedical/Process Telemetry, OT Control Systems, and Secure IT/Database Architecture. This repository demonstrates cyber-physical resilience by design.
 
@@ -60,4 +58,3 @@ Hardens the storage layer against unauthorized queries and tampering.
 │   ├── honeypot.py             # Active defense & decoy script
 │   └── attack.py               # Threat vector simulation tool
 └── README.md                   # Repository documentation
-=======
