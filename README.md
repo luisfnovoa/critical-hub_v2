@@ -1,42 +1,41 @@
 🛡️ Critical Hop W2 (formerly Kronos Operational Hub)
 Tactical Accessibility & Industrial Cybersecurity Lab
-Descripción
-Critical Hop W2 es la evolución táctica del entorno de investigación industrial Kronos. Diseñado para cerrar la brecha entre la Telemetría de Procesos (Biomédica), los Sistemas de Control OT y la Arquitectura de Seguridad IT. Este repositorio es un sandbox diseñado para la modelización de la resiliencia ciberfísica.
+Overview:
+Critical Hop W2 is the tactical evolution of the Kronos industrial research environment. Engineered to bridge the gap between Biomedical Process Telemetry, OT (Operational Technology) Control Systems, and IT Security Architecture. This repository acts as a sandbox designed for the modeling of cyber-physical resilience.
 
-🌐 La Convergencia de Tres Mundos
-Esta arquitectura unifica tres disciplinas técnicas distintas en un ecosistema resiliente:
+🌐 The Convergence of Three Worlds
+This architecture unifies three distinct technical disciplines into a single resilient ecosystem:
 
-Capa Biomédica y de Procesos (Safety & Physics): Monitoreo de variables críticas, preservación de cadena de frío y fronteras químicas. Se definen las restricciones de seguridad físicas que la capa de software nunca debe violar.
+Biomedical & Process Layer (Safety & Physics): Real-time monitoring of critical variables, cold chain preservation, and chemical boundaries. Defines physical safety constraints that the software layer must never violate.
 
-Capa de Software y Control (Logic & OT): Simulación de estados PLC y vectores de automatización. Orquestación de pipelines de datos mediante scripts deterministas.
+Software & Control Layer (Logic & OT): PLC state simulation and automation vectors. Orchestration of data pipelines via deterministic scripts.
 
-Capa de Base de Datos y Red (IT & Identity): Gestión de endpoints, seguridad de API y manejo de credenciales de alta entropía.
+Database & Network Layer (IT & Identity): Endpoint management, API security, and high-entropy credential handling.
 
-🚀 Evolución W2: Módulo de Accesibilidad Premium
-La versión W2 integra el Módulo de Control Externo (Kronos-Premium), diseñado para garantizar la operatividad táctica en condiciones adversas:
+🚀 W2 Evolution: Premium Accessibility Module
+The W2 version introduces the External Control Module (Kronos-Premium), engineered to guarantee tactical operability under adverse conditions:
 
-TTS (Text-to-Speech): Síntesis de voz para telemetría crítica sin necesidad de mirar el display.
+Text-to-Speech (TTS): Audio synthesis for critical telemetry, eliminating the need to monitor displays.
 
-Modo Daltonismo/Alto Contraste: Filtrado dinámico CSS para visibilidad en entornos de baja luz o fatiga visual.
+High-Contrast/Colorblind Mode: Dynamic CSS filtering for visibility in low-light environments or during visual fatigue.
 
-Atajos Tácticos: Interacción optimizada sin periféricos complejos.
+Tactical Shortcuts: Optimized interaction workflows, minimizing reliance on complex peripherals.
 
-🛡️ Filosofía de Defensa Operativa
-En Critical Hop, la seguridad es la base, no una capa añadida:
+🛡️ Operational Defense Philosophy
+In Critical Hop, security is the foundation, not an add-on layer:
 
-Aislamiento Determinista: La lógica de control opera independiente de entradas externas.
+Deterministic Isolation: The control logic operates independently of external inputs.
 
-Perímetro Engañoso: Lógica honeypot.py activa para detectar reconocimiento no autorizado en tiempo real.
+Deceptive Perimeter: Active honeypot.py logic to detect unauthorized reconnaissance in real-time.
 
-Telemetría Fail-Safe: Los umbrales de seguridad física se fuerzan en el núcleo lógico.
+Fail-Safe Telemetry: Physical safety thresholds are hard-coded into the logic core.
 
-🛠️ Estructura del Proyecto
-Plaintext
-📁 python/
-├── 📁 critical-hub/            # Entorno operativo principal
-│   ├── index.html              # UI de Control Táctico (Dashboard)
-│   ├── kronos-premium.js       # Módulo de accesibilidad inyectado
-│   ├── plc_sim.py              # Motor de simulación OT / PLC
-│   ├── honeypot.py             # Defensa activa y señuelos
-│   └── attack.py               # Herramienta de simulación de amenazas
-└── README.md                   # Documentación del proyecto
+🛠️ Project Structure
+python/
+├── critical-hub/            # Main operational environment
+│   ├── index.html           # Tactical Control UI (Dashboard)
+│   ├── kronos-premium.js    # Injected accessibility module
+│   ├── plc_sim.py           # OT / PLC Simulation Engine
+│   ├── honeypot.py          # Active defense and decoys
+│   └── attack.py            # Threat simulation tool
+└── README.md                # Project documentation
